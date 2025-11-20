@@ -41,7 +41,7 @@ const Borrower = mongoose.model('Borrower', borrowerSchema);
 
 
 app.get('/', (req, res) => {
-  res.send('✅ Library Management CRUD API is running!');
+  res.send('✅ Library Management is fully functional!');
 });
 
 //BOOKS
@@ -197,7 +197,7 @@ app.post('/borrowers/:borrowerId/borrow/:bookId', async (req, res) => {
     const { borrowerId, bookId } = req.params;
 
     const borrower = await Borrower.findById(borrowerId);
-    if (!borrower) return res.status(404).json({ message: 'Borrower not found' });
+    if (!borrower) return res.status(404).json({ message: 'Borrower not registered' });
 
     const book = await Book.findById(bookId);
     if (!book) return res.status(404).json({ message: 'Book not found' });
