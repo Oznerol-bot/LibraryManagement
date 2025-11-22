@@ -203,11 +203,11 @@ app.post('/borrowers/:borrowerId/borrow/:bookId', async (req, res) => {
     if (!book) return res.status(404).json({ message: 'Book not found' });
     if (book.isBorrowed) return res.status(400).json({ message: 'Book is already borrowed' });
 
-    // Update book status
+
     book.isBorrowed = true;
     await book.save();
 
-    // Add book to borrower's borrowedBooks array
+    
     borrower.borrowedBooks.push(book._id);
     await borrower.save();
 
@@ -248,7 +248,7 @@ app.patch('/borrowers/:borrowerId/return/:bookId', async (req, res) => {
 async function startServer() {
   try {
     await mongoose.connect(process.env.MONGODB_URI);
-    console.log('✅ Connected to MongoDB Atlas');
+    console.log('✅ Connected to MongoDB Atglas');
     app.listen(PORT, () => console.log(`🚀 Server running on http://localhost:${PORT}`));
   } catch (err) {
     console.error('❌ Failed to connect:', err.message);
