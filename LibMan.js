@@ -244,7 +244,7 @@ app.patch('/api/v1/borrowers/:borrowerId/return/:bookId', async (req, res) => {
   }
 });
 
-// ====== Connect to MongoDB Atlas ======
+
 async function startServer() {
   try {
     await mongoose.connect(process.env.MONGODB_URI);
