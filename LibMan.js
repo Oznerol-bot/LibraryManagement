@@ -45,7 +45,7 @@ app.get('/', (req, res) => {
 });
 
 //BOOKS
-app.post('/books', async (req, res) => {
+app.post('/api/v1/books', async (req, res) => {
   try {
     const { authorFirstName, authorLastName, ...bookData } = req.body;
 
@@ -73,7 +73,7 @@ app.post('/books', async (req, res) => {
   }
 });
 
-app.get('/books', async (req, res) => {
+app.get('/api/v1/books', async (req, res) => {
   try {
     const books = await Book.find().sort({ createdAt: -1 });
     res.json(books);
@@ -83,7 +83,7 @@ app.get('/books', async (req, res) => {
 });
 
 
-app.get('/books/:id', async (req, res) => {
+app.get('/api/v1/books/:id', async (req, res) => {
   try {
     const book = await Book.findById(req.params.id);
     if (!book) return res.status(404).json({ message: 'Book is not registered in library' });
@@ -94,7 +94,7 @@ app.get('/books/:id', async (req, res) => {
 });
 
 
-app.put('/books/:id', async (req, res) => {
+app.put('/api/v1/books/:id', async (req, res) => {
   try {
     const book = await Book.findByIdAndUpdate(req.params.id, req.body, { new: true });
     if (!book) return res.status(404).json({ message: 'Book is not registered' });
@@ -105,7 +105,7 @@ app.put('/books/:id', async (req, res) => {
 });
 
 
-app.delete('/books/:id', async (req, res) => {
+app.delete('/api/v1/books/:id', async (req, res) => {
   try {
     const book = await Book.findByIdAndDelete(req.params.id);
     if (!book) return res.status(404).json({ message: 'Book is not registered' });
@@ -141,7 +141,7 @@ app.get('/api/v1/authors', async (req, res) => {
   }
 });
 
-app.get('/authors/:id', async (req, res) => {
+app.get('/api/v1/authors/:id', async (req, res) => {
   try {
     const author = await Author.findById(req.params.id);
     if (!author) return res.status(404).json({ message: 'Author not found' });
@@ -151,7 +151,7 @@ app.get('/authors/:id', async (req, res) => {
   }
 });
 
-app.put('/authors/:id', async (req, res) => {
+app.put('/api/v1/authors/:id', async (req, res) => {
   try {
     const author = await Author.findByIdAndUpdate(req.params.id, req.body, { new: true });
     if (!author) return res.status(404).json({ message: 'Author not found' });
@@ -161,7 +161,7 @@ app.put('/authors/:id', async (req, res) => {
   }
 });
 
-app.delete('/authors/:id', async (req, res) => {
+app.delete('/api/v1/authors/:id', async (req, res) => {
   try {
     const author = await Author.findByIdAndDelete(req.params.id);
     if (!author) return res.status(404).json({ message: 'Author not found' });
@@ -173,7 +173,7 @@ app.delete('/authors/:id', async (req, res) => {
 
 //BORROWERS
 
-app.get('/borrowers', async (req, res) => {
+app.get('/api/v1/borrowers', async (req, res) => {
   try {
     const borrowers = await Borrower.find().sort({ createdAt: -1 });
     res.json(borrowers);
@@ -182,7 +182,7 @@ app.get('/borrowers', async (req, res) => {
   }
 });
 
-app.post('/borrowers', async (req, res) => {
+app.post('/api/v1/borrowers', async (req, res) => {
   try {
     const borrower = new Borrower(req.body);
     await borrower.save();
@@ -192,7 +192,7 @@ app.post('/borrowers', async (req, res) => {
   }
 });
 
-app.post('/borrowers/:borrowerId/borrow/:bookId', async (req, res) => {
+app.post('/api/v1/borrowers/:borrowerId/borrow/:bookId', async (req, res) => {
   try {
     const { borrowerId, bookId } = req.params;
 
@@ -217,7 +217,7 @@ app.post('/borrowers/:borrowerId/borrow/:bookId', async (req, res) => {
   }
 });
 
-app.patch('/borrowers/:borrowerId/return/:bookId', async (req, res) => {
+app.patch('/api/v1/borrowers/:borrowerId/return/:bookId', async (req, res) => {
   try {
     const { borrowerId, bookId } = req.params;
 
