@@ -114,7 +114,7 @@ app.put('/api/v1/books/:id', async (req, res) => {
     if (!book) return res.status(404).json({ message: 'Book is not registered' });
     res.status(200).json({ message: "Book updated successfully", book });
   } catch (err) {
-    res.status(400).json({ message: err.message });
+    res.status(500).json({ message: "Server error while updating book" });
   }
 });
 
@@ -168,7 +168,7 @@ app.put('/api/v1/authors/:id', async (req, res) => {
     if (!author) return res.status(404).json({ message: 'Author not found' });
     res.status(200).json({ message: "Author updated successfully", author });
   } catch (err) {
-    res.status(400).json({ message: err.message });
+    res.status(500).json({ message: "Server error while updating author" });
   }
 });
 
