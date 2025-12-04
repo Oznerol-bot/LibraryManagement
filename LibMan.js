@@ -67,18 +67,18 @@ app.post('/api/v1/books', async (req, res) => {
     await book.save();
     author.books.push(book._id);
     await author.save();
-    res.status(201).json(book);
+    res.status(201).json({ message: "Book created successfully", book });
   } catch (err) {
-    res.status(400).json({ message: err.message });
+    res.status(500).json({ message: "Server error while creating book" });
   }
-});
+}); 
 
 app.get('/api/v1/books', async (req, res) => {
   try {
     const books = await Book.find().sort({ createdAt: -1 });
-    res.json(books);
+    res.status(200).json({ message: "Books retrieved successfully", books });
   } catch (err) {
-    res.status(500).json({ message: err.message });
+   res.status(500).json({ message: "Server error while retrieving books" });
   }
 });
 
@@ -87,9 +87,9 @@ app.get('/api/v1/books/:id', async (req, res) => {
   try {
     const book = await Book.findById(req.params.id);
     if (!book) return res.status(404).json({ message: 'Book is not registered in library' });
-    res.json(book);
+    res.status(200).json({ message: "Book retrieved successfully", book });
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    res.status(500).json({ message: "Server error while retrieving book" });
   }
 });
 
@@ -98,9 +98,9 @@ app.put('/api/v1/books/:id', async (req, res) => {
   try {
     const book = await Book.findByIdAndUpdate(req.params.id, req.body, { new: true });
     if (!book) return res.status(404).json({ message: 'Book is not registered' });
-    res.json(book);
+    res.status(200).json({ message: "Book updated successfully", updatedBook });
   } catch (err) {
-    res.status(400).json({ message: err.message });
+    res.status(500).json({ message: "Server error while updating book" });
   }
 });
 
@@ -109,9 +109,9 @@ app.delete('/api/v1/books/:id', async (req, res) => {
   try {
     const book = await Book.findByIdAndDelete(req.params.id);
     if (!book) return res.status(404).json({ message: 'Book is not registered' });
-    res.json({ message: 'Book registration deleted' });
+    res.status(200).json({ message: 'Book registration deleted' });
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    res.status(500).json({ message: "Server error while deleting book" });
   }
 });
 
@@ -126,18 +126,18 @@ app.post("/api/v1/authors", async (req, res) => {
 
     const author = new Author({ firstName, lastName, books: [] });
     await author.save();
-    res.status(201).json(author);
+    res.status(201).json({ message: "Author created successfully", author });
   } catch (err) {
-    res.status(400).json({ message: err.message });
+    res.status(500).json({ message: "Server error while creating author" });
   }
 });
 
 app.get('/api/v1/authors', async (req, res) => {
   try {
     const authors = await Author.find().sort({ createdAt: -1 }); 
-    res.json(authors);
+    res.status(200).json({ message: "Authors retrieved successfully", authors });
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    res.status(500).json({ message: "Server error while retrieving authors" });
   }
 });
 
@@ -145,9 +145,9 @@ app.get('/api/v1/authors/:id', async (req, res) => {
   try {
     const author = await Author.findById(req.params.id);
     if (!author) return res.status(404).json({ message: 'Author not found' });
-    res.json(author);
+     res.status(200).json({ message: "Author retrieved successfully", author });
   } catch (err) {
-    res.status(500).json({ message: err.message });
+   res.status(500).json({ message: "Server error while retrieving author" });
   }
 });
 
@@ -155,9 +155,9 @@ app.put('/api/v1/authors/:id', async (req, res) => {
   try {
     const author = await Author.findByIdAndUpdate(req.params.id, req.body, { new: true });
     if (!author) return res.status(404).json({ message: 'Author not found' });
-    res.json(author);
+    res.status(200).json({ message: "Author updated successfully", updatedAuthor });
   } catch (err) {
-    res.status(400).json({ message: err.message });
+     res.status(500).json({ message: "Server error while updating author" });
   }
 });
 
@@ -165,9 +165,9 @@ app.delete('/api/v1/authors/:id', async (req, res) => {
   try {
     const author = await Author.findByIdAndDelete(req.params.id);
     if (!author) return res.status(404).json({ message: 'Author not found' });
-    res.json({ message: 'Author deleted successfully' });
+     res.status(200).json({ message: 'Author deleted successfully' });
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    res.status(500).json({ message: "Server error while deleting author" });
   }
 });
 
@@ -176,44 +176,53 @@ app.delete('/api/v1/authors/:id', async (req, res) => {
 app.get('/api/v1/borrowers', async (req, res) => {
   try {
     const borrowers = await Borrower.find().sort({ createdAt: -1 });
-    res.json(borrowers);
+    res.status(200).json({ message: "Borrowers retrieved successfully", borrowers });
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    res.status(500).json({ message: "Server error while retrieving borrowers" });
   }
 });
 
 app.post('/api/v1/borrowers', async (req, res) => {
   try {
+    const { fullName, email } = req.body;
+    if (!fullName || !email) {return res.status(400).json({ message: "Full name and email are required" });}
     const borrower = new Borrower(req.body);
     await borrower.save();
-    res.status(201).json(borrower);
+    res.status(201).json({ message: "Borrower created successfully", borrower });
   } catch (err) {
-    res.status(400).json({ message: err.message });
+    res.status(500).json({ message: "Server error while creating borrower" });
   }
 });
 
-app.post('/api/v1/borrowers/:borrowerId/borrow/:bookId', async (req, res) => {
+app.patch('/api/v1/borrowers/:borrowerId/borrow/:bookId', async (req, res) => {
   try {
     const { borrowerId, bookId } = req.params;
 
     const borrower = await Borrower.findById(borrowerId);
-    if (!borrower) return res.status(404).json({ message: 'Borrower not registered' });
+    if (!borrower) {
+      return res.status(404).json({ message: "Borrower not registered" });
+    }
 
     const book = await Book.findById(bookId);
-    if (!book) return res.status(404).json({ message: 'Book not found' });
-    if (book.isBorrowed) return res.status(400).json({ message: 'Book is already borrowed' });
+    if (!book) {
+      return res.status(404).json({ message: "Book not found" });
+    }
+
+    if (book.isBorrowed) {
+      return res.status(400).json({ message: "Book is already borrowed" });
+    }
 
 
     book.isBorrowed = true;
     await book.save();
 
-    
+
     borrower.borrowedBooks.push(book._id);
     await borrower.save();
 
-    res.json({ message: 'Book borrowed successfully' });
+    res.status(200).json({ message: "Book borrowed successfully" });
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    res.status(500).json({ message: "Server error while borrowing book" });
   }
 });
 
