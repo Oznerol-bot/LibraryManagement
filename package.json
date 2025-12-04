@@ -4,8 +4,7 @@
   "description": "",
   "main": "LibMan.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "postinstall": "node -e \"require('fs').cpSync('node_modules/swagger-ui-dist', 'public/swagger-ui-dist', { recursive: true })\""
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
