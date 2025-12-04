@@ -16,7 +16,7 @@ const options = {
     ],
     components: {
       securitySchemes: {
-        BearerAuth: {
+        bearerAuth: { 
           type: "http",
           scheme: "bearer",
           bearerFormat: "JWT",
@@ -25,11 +25,11 @@ const options = {
     },
     security: [
       {
-        BearerAuth: [],
+        bearerAuth: [], 
       },
     ],
   },
-  apis: ["./swagger-docs.js"], // <-- your swagger doc file with JSDoc comments
+  apis: ["./swagger-docs.js", "./LibMan.js"], 
 };
 
 const swaggerSpec = swaggerJsDoc(options);
