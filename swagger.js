@@ -1,29 +1,30 @@
-const swaggerJSDoc = require('swagger-jsdoc');
+const swaggerJsDoc = require("swagger-jsdoc");
+const swaggerUi = require("swagger-ui-express");
 
-const options = {
+const swaggerOptions = {
   definition: {
     openapi: "3.0.0",
     info: {
       title: "Library Management API",
       version: "1.0.0",
-      description: "API Swagger Docu is here for the Library Management Api",
+      description: "API documentation for Library Management",
     },
     servers: [
-      { url: "https://library-management-swart-one.vercel.app" } 
+      { url: "https://library-management-swart-one.vercel.app" }
     ],
-  components: {
+    components: {
       securitySchemes: {
         bearerAuth: {
           type: "http",
           scheme: "bearer",
-          bearerFormat: "JWT",
-          description: "Enter JWT token in format **Bearer &lt;token&gt;**",
-        },
-      },
+          bearerFormat: "JWT"
+        }
+      }
     },
+    security: [{ bearerAuth: [] }]
   },
   apis: ["./swagger-docs.js"], 
 };
 
-const swaggerSpec = swaggerJsDoc(options);
-module.exports = swaggerSpec;
+const swaggerSpec = swaggerJsDoc(swaggerOptions);
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
