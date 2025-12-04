@@ -12,6 +12,7 @@ const PORT = process.env.PORT || 3000;
 // ====== Middleware ======
 app.use(cors());
 app.use(express.json());
+app.use(express.static('public')); 
 
 // ====== Mongoose Schema & Model ======
 const bookSchema = new mongoose.Schema({
@@ -62,7 +63,6 @@ function authReader(req, res, next) {
     res.status(401).json({ message: "Invalid or expired token" });
   }
 }
-
 
 app.get('/', (req, res) => {
   res.send('✅ Library Management is fully functional!');
@@ -274,7 +274,6 @@ app.patch('/api/v1/readers/:readerId/return/:bookId', authReader, async (req, re
 });
 
 // ====== Start Server ======
-
 setupSwagger(app);
 
 async function startServer() {

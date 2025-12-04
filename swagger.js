@@ -34,8 +34,17 @@ const options = {
 
 const swaggerSpec = swaggerJsDoc(options);
 
+const swaggerOptions = {
+    customCssUrl: '/swagger-ui-dist/swagger-ui.css',
+    customJs: '/swagger-ui-dist/swagger-ui-bundle.js'
+};
+
 function setupSwagger(app) {
-  app.use("/api-docs", swaggerUIExpress.serve, swaggerUIExpress.setup(swaggerSpec));
+  app.use(
+    "/api-docs", 
+    swaggerUIExpress.serve, 
+    swaggerUIExpress.setup(swaggerSpec, swaggerOptions)
+  );
   console.log("✅ Swagger UI available at /api-docs");
 }
 
