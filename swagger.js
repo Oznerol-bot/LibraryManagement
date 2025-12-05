@@ -39,8 +39,8 @@ const options = {
 const swaggerSpec = swaggerJsDoc(options);
 
 const swaggerOptions = {
-    customCssUrl: `https://unpkg.com/swagger-ui-dist@${SWAGGER_VERSION}/swagger-ui.css`,
-    customJs: `https://unpkg.com/swagger-ui-dist@${SWAGGER_VERSION}/swagger-ui-bundle.js`
+    customCssUrl: `https://cdn.jsdelivr.net/npm/swagger-ui-dist@latest/swagger-ui.css`,
+    customJs: `https://cdn.jsdelivr.net/npm/swagger-ui-dist@latest/swagger-ui.js`
 };
 
 function setupSwagger(app) {
