@@ -2,7 +2,7 @@ const swaggerUIExpress = require("swagger-ui-express");
 const swaggerJsDoc = require("swagger-jsdoc");
 
 
-const SWAGGER_VERSION = '5.0.1'; 
+const SWAGGER_VERSION = '4.1.3'; 
 
 const options = {
   definition: {
